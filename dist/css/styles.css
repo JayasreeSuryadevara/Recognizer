@@ -1,0 +1,33 @@
+
+html {
+  background: rgb(223, 243, 243);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  font-weight: 200;
+  display: flex;
+  justify-content: center;
+}
+#target {
+  background-color: whitesmoke;
+  height: 400px;
+  width: 400px;
+}
+#output {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 30px;
+  width: 200px;
+}
+#image-name {
+  height: 30px;
+  width: 200px;
+}
+#button {
+  height: 30px;
+  width: 50px;
+}
+/* #myChart {
+  background-color: whitesmoke;
+  height: 400px;
+  width: 400px;
+} */

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>PictureBot!</title>
+  <link rel="icon" href="imageBotLogo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="./css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+  <script type="application/javascript" src="./main.js" defer></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
+</head>
+
+<body>
+  <div className="main-body">
+    <div className="bot-input-container">
+      <div className="welcome">
+        <h1 id="welcome-mesg">Welcome to my space!</h1>
+        <br />
+        <!-- <p>Use your camera to show me images...</p> -->
+      </div>
+      <br />
+      <div className="camera-canvas-holder">
+        <canvas id="canvas"></canvas>
+        <div id="output"></div>
+      </div>
+      <br>
+      <div className="user-interaction">
+        <input id="image-name" type="text" placeholder='What is this?' />
+        <button id="button"> Learn </button>
+      </div>
+      <br>
+    </div>
+    <div className="output-display-conatainer">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+</body>
+
+</html>
