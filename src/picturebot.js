@@ -94,18 +94,18 @@ export default class PictureBot {
   processMatrix(matrix) {
     this.isolateObject(matrix);
     let box = this.getBoundingBox(matrix);
-    let boxProp = this.getBoxProperties(box);
+    let boxProps = this.getBoundingBoxProps(box);
 debugger;
     let blackPixels = this.countBlackPixels(matrix);
     console.log("black pixels ", blackPixels)
-    let boxArea = boxProp.width * boxProp.length;
+    let boxArea = boxProps.width * boxProps.length;
     console.log("box area", boxArea);
     let fullness = blackPixels / boxArea;
-    console.log("aspect ratio", boxProp.aspectRatio);
-    // OBJ_PROP = boxProp.aspectRatio;
+    console.log("aspect ratio", boxProps.aspectRatio);
+    // OBJ_PROP = boxProps.aspectRatio;
 
     OBJ_PROP = [];
-    OBJ_PROP[1] = boxProp.aspectRatio;
+    OBJ_PROP[1] = boxProps.aspectRatio;
     OBJ_PROP[2] = fullness;
 
     this.recognize(OBJ_PROP);
@@ -159,8 +159,8 @@ debugger;
     return Math.sqrt(dist);
   }
 
-  getBoxProperties(box) {
-    let prop = {
+  getBoundingBoxProps(box) {
+    let props = {
       length: 0,
       width: 0,
       aspectRatio: 0
@@ -170,11 +170,11 @@ debugger;
     let deltaX = box.xMax - box.xMin + 1;
     let deltaY = box.yMax - box.yMin + 1;
 
-    prop.length = Math.max(deltaX, deltaY);
-    prop.width = Math.min(deltaX, deltaY);
-    prop.aspectRatio = prop.width / prop.length;
+    props.length = Math.max(deltaX, deltaY);
+    props.width = Math.min(deltaX, deltaY);
+    props.aspectRatio = props.width / props.length;
 
-    return prop;
+    return props;
   }
 
   getBoundingBox(matrix) {
