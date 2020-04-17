@@ -1,16 +1,29 @@
 
 html {
-  background: rgb(223, 243, 243);
+  background: rgb(228, 247, 204);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 20px;
-  font-weight: 200;
-  display: flex;
-  justify-content: center;
+  padding: 10px;
 }
-#target {
+.welcome {
+  width: 100%;
+  font: 24px;
+}
+.main-body {
+  padding: 20px;
+}
+.bot-input-container {
+  float: left;
+  width: 50%;
+}
+.output-display-conatainer {
+  float: right;
+  width: 50%;
+}
+#canvas {
   background-color: whitesmoke;
   height: 400px;
   width: 400px;
+  border: solid 1px #eee;
 }
 #output {
   padding-top: 20px;
@@ -20,14 +33,22 @@ html {
 }
 #image-name {
   height: 30px;
-  width: 200px;
+  width: 160px;
 }
 #button {
   height: 30px;
-  width: 50px;
+  width: 60px;
+  border-radius: 5px;
+  color: gray;
+  background-color: #eee;
 }
-/* #myChart {
+#myChart {
   background-color: whitesmoke;
-  height: 400px;
-  width: 400px;
-} */
+  height: 300px;
+  width: 300px;
+  border: solid 1px #eee;
+}
+.results-container {
+  height: 300px;
+  width: 300px;
+}
