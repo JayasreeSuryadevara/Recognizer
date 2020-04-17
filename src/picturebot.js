@@ -1,7 +1,7 @@
-const SIZE = 300;
-const THRESHOLD = 150;
-const LEARNING_DATA = [];
-let OBJ_PROP = null;
+const SIZE = 300; //canvas size
+const THRESHOLD = 128; //gray
+const LEARNING_DATA = []; //decision name mapped to value
+let OBJ_PROP = null; 
 let OBJ_COUNT = 0;
 
 export default class PictureBot {
@@ -93,26 +93,43 @@ export default class PictureBot {
 
   processMatrix(matrix) {
     this.isolateObject(matrix);
-    let box = this.getBoundingBox(matrix);
-    let boxProps = this.getBoundingBoxProps(box);
-debugger;
+    debugger;
     let blackPixels = this.countBlackPixels(matrix);
     console.log("black pixels ", blackPixels)
-    let boxArea = boxProps.width * boxProps.length;
+    let boxArea = SIZE * SIZE;
     console.log("box area", boxArea);
     let fullness = blackPixels / boxArea;
-    console.log("aspect ratio", boxProps.aspectRatio);
-    // OBJ_PROP = boxProps.aspectRatio;
 
-    OBJ_PROP = [];
-    OBJ_PROP[1] = boxProps.aspectRatio;
-    OBJ_PROP[2] = fullness;
+    OBJ_PROP = fullness;
+
 
     this.recognize(OBJ_PROP);
 
-    this.updateCanvas(matrix);
-    this.drawBox(box);
+    // this.updateCanvas(matrix);
+    this.updateData(LEARNING_DATA);
   }
+//   processMatrix(matrix) {
+//     this.isolateObject(matrix);
+//     let box = this.getBoundingBox(matrix);
+//     let boxProps = this.getBoundingBoxProps(box);
+// debugger;
+//     let blackPixels = this.countBlackPixels(matrix);
+//     console.log("black pixels ", blackPixels)
+//     let boxArea = boxProps.width * boxProps.length;
+//     console.log("box area", boxArea);
+//     let fullness = blackPixels / boxArea;
+//     console.log("aspect ratio", boxProps.aspectRatio);
+//     // OBJ_PROP = boxProps.aspectRatio;
+
+//     OBJ_PROP = [];
+//     OBJ_PROP[1] = boxProps.aspectRatio;
+//     OBJ_PROP[2] = fullness;
+
+//     this.recognize(OBJ_PROP);
+
+//     this.updateCanvas(matrix);
+//     this.drawBox(box);
+//   }
 
   countBlackPixels(matrix) {
     let count = 0;
@@ -159,54 +176,54 @@ debugger;
     return Math.sqrt(dist);
   }
 
-  getBoundingBoxProps(box) {
-    let props = {
-      length: 0,
-      width: 0,
-      aspectRatio: 0
-    }
-    debugger;
-    //Calculate the actual lenth and width of the image
-    let deltaX = box.xMax - box.xMin + 1;
-    let deltaY = box.yMax - box.yMin + 1;
+  // getBoundingBoxProps(box) {
+  //   let props = {
+  //     length: 0,
+  //     width: 0,
+  //     aspectRatio: 0
+  //   }
+  //   debugger;
+  //   //Calculate the actual lenth and width of the image
+  //   let deltaX = box.xMax - box.xMin + 1;
+  //   let deltaY = box.yMax - box.yMin + 1;
 
-    props.length = Math.max(deltaX, deltaY);
-    props.width = Math.min(deltaX, deltaY);
-    props.aspectRatio = props.width / props.length;
+  //   props.length = Math.max(deltaX, deltaY);
+  //   props.width = Math.min(deltaX, deltaY);
+  //   props.aspectRatio = props.width / props.length;
 
-    return props;
-  }
+  //   return props;
+  // }
 
-  getBoundingBox(matrix) {
-    let box = {
-      xMin: SIZE + 1,
-      xMax: 0,
-      yMin: SIZE + 1,
-      yMax: 0
-    }; //301,0,301,0
+  // getBoundingBox(matrix) {
+  //   let box = {
+  //     xMin: SIZE + 1,
+  //     xMax: 0,
+  //     yMin: SIZE + 1,
+  //     yMax: 0
+  //   }; //301,0,301,0
 
-    for (let y = 1; y <= SIZE; y++) {
-      for (let x = 1; x <= SIZE; x++) {
-        if (matrix[y][x] == 0) {
-          box.yMin = Math.min(y, box.yMin);
-          box.yMax = Math.max(y, box.yMax);
-          box.xMin = Math.min(x, box.xMin);
-          box.xMax = Math.max(x, box.xMax);
-        }
-      }
-    }
+  //   for (let y = 1; y <= SIZE; y++) {
+  //     for (let x = 1; x <= SIZE; x++) {
+  //       if (matrix[y][x] == 0) {
+  //         box.yMin = Math.min(y, box.yMin);
+  //         box.yMax = Math.max(y, box.yMax);
+  //         box.xMin = Math.min(x, box.xMin);
+  //         box.xMax = Math.max(x, box.xMax);
+  //       }
+  //     }
+  //   }
 
-    return box;
-  }
+  //   return box;
+  // }
 
-  drawBox(box) {
-    let context = this.canvas.getContext('2d');
-    context.beginPath();
-    let deltaX = box.xMax - box.xMin;
-    let deltaY = box.yMax - box.yMin;
-    context.rect(box.xMin, box.yMin, deltaX, deltaY);
-    context.stroke();
-  }
+  // drawBox(box) {
+  //   let context = this.canvas.getContext('2d');
+  //   context.beginPath();
+  //   let deltaX = box.xMax - box.xMin;
+  //   let deltaY = box.yMax - box.yMin;
+  //   context.rect(box.xMin, box.yMin, deltaX, deltaY);
+  //   context.stroke();
+  // }
 
   isolateObject(matrix) {
     for (let i = 1; i <= SIZE; i++) {
@@ -220,36 +237,44 @@ debugger;
     }
   }
 
+  //dataArray comes as a single array of 4 values per pixel 
+  // [red, green, blue, opacity]
   getGreyScaleMatrix(dataArray) {
     let matrix = [];
-    for (let i = 1; i <= SIZE; i++) {
-      matrix[i] = [];
-      for (let j = 1; j <= SIZE; j++) {
-        let groupIndex = (i - 1) * SIZE * 4 + (j - 1) * 4;
-        let red = dataArray[groupIndex + 0];
-        let green = dataArray[groupIndex + 1];
-        let blue = dataArray[groupIndex + 2];
+    for (let y = 1; y <= SIZE; y++) {
+      matrix[y] = [];
+      for (let x = 1; x <= SIZE; x++) {
+        let pixelIndex = (y - 1) * SIZE * 4 + (x - 1) * 4;
+        let red = dataArray[pixelIndex + 0];
+        let green = dataArray[pixelIndex + 1];
+        let blue = dataArray[pixelIndex + 2];
         matrix[i][j] = (red + green + blue) / 3;
       }
     }
     return matrix;
   }
 
-  updateCanvas(matrix) {
-    let context = this.canvas.getContext('2d');
-    let image = context.getImageData(0, 0, SIZE, SIZE);
-
-    for (let i = 1; i <= SIZE; i++) {
-      for (let j = 1; j <= SIZE; j++) {
-        let groupIndex = (i - 1) * SIZE * 4 + (j - 1) * 4;
-        image.data[groupIndex + 0] = matrix[i][j];
-        image.data[groupIndex + 1] = matrix[i][j];
-        image.data[groupIndex + 2] = matrix[i][j];
-      }
-    }
-
-    context.putImageData(image, 0, 0);
+  updateData(LEARNING_DATA) {
+    const listContainer = document.getElementById("learned-list");
+    listContainer.innerHTML = LEARNING_DATA.map((record,i) => {
+        return <li key={i}>{record.name} : {record.OBJ_PROP}</li>
+      })}
   }
+  // updateCanvas(matrix) {
+  //   let context = this.canvas.getContext('2d');
+  //   let image = context.getImageData(0, 0, SIZE, SIZE);
+
+  //   for (let i = 1; i <= SIZE; i++) {
+  //     for (let j = 1; j <= SIZE; j++) {
+  //       let groupIndex = (i - 1) * SIZE * 4 + (j - 1) * 4;
+  //       image.data[groupIndex + 0] = matrix[i][j];
+  //       image.data[groupIndex + 1] = matrix[i][j];
+  //       image.data[groupIndex + 2] = matrix[i][j];
+  //     }
+  //   }
+
+  //   context.putImageData(image, 0, 0);
+  // }
 }
 
 

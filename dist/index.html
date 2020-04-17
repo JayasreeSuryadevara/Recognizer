@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="./css/reset.css" />
     <link rel="stylesheet" type="text/css" href="./css/styles.css" />
     <script type="application/javascript" src="./main.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   </head>
 
@@ -40,7 +40,9 @@
             <canvas id="myChart"></canvas>
             <button className="clear-btn">Clear Learned Data</button>
           </div>
-          <div className="results-container"></div>
+          <div className="results-container">
+            <ul className="learned-list"></ul>
+          </div>
         </div>
       </div>
     </div>
