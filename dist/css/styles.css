@@ -18,8 +18,10 @@ html {
   display: inline-block;
   width: 50%;
 }
+
 #sampler {
-  height: 30px;
+  height: 28px;
+  border-radius: 5px;
 }
 #controls {
   display: none;

@@ -1,7 +1,7 @@
 const SIZE = 300; //canvas size
 const THRESHOLD = 128; //gray
-const CURRENT_SAMPLE = 1;
 const NUM_SAMPLES = 24;
+let currentSample = 1; //first sample image
 let observedObj = []; // map name of obj to analyzed data
 let analyzed = [] //analyzed obj size and mass
 let objCount = 0;
@@ -33,6 +33,10 @@ export default class PictureBot {
   startEvents() {
     const sampleButton = document.getElementById("sampler");
     sampleButton.addEventListener("click", () => { this.browseSamples() });
+    const backButton = document.getElementById("back");
+    sampleButton.addEventListener("click", () => { this.goBack() });
+    const forwardButton = document.getElementById("forward");
+    sampleButton.addEventListener("click", () => { this.goForward() });
     const learnButton = document.getElementById("button");
     learnButton.addEventListener("click" , () => { this.learn() });
     const inputField = document.getElementById("image-name");
@@ -102,19 +106,14 @@ export default class PictureBot {
 
   browseSamples() {
     document.getElementById("controls").style.display = "block";
-    this.processSample(CURRENT_SAMPLE);
+    this.processSample(currentSample);
   }
 
   processSample(num) {
-    CURRENT_SAMPLE = num;
+    currentSample = num;
     let image = new Image();
-    image.src = "/samples" + CURRENT_SAMPLE + ".jpeg";
+    image.src = "samples/" + currentSample + ".jpeg";
     this.ctx.clearRect(0,0,SIZE,SIZE);
-    var location = {
-      x: SIZE / 2,
-      y: SIZE / 2
-    }
-    drawText(LOADING, SIZE / 8, this.ctx, location);
 
     image.onload = function () {
       // takes time to load; when complete, draw and process the image
@@ -124,27 +123,40 @@ export default class PictureBot {
       this.processMatrix(matrix);
     };
 
-    updateControlls();
+    this.updateControlls();
   }
 
   updateControlls() {
     // disable back button if viewing first sample
-    if (CURRENT_SAMPLE <= 1) {
+    if (currentSample <= 1) {
       document.getElementById("back").disabled = true;
     } else {
       document.getElementById("back").disabled = false;
     }
 
     // disable forward button if viewing last sample
-    if (CURRENT_SAMPLE == NUM_SAMPLES) {
+    if (currentSample == NUM_SAMPLES) {
       document.getElementById("forward").disabled = true;
     } else {
       document.getElementById("forward").disabled = false;
     }
 
     // showing the number of the current sample
-    document.getElementById("sample").innerHTML =
-      CURRENT_SAMPLE + " / " + NUM_SAMPLES;
+    document.getElementById("sample-count").innerHTML =
+      currentSample + " / " + NUM_SAMPLES;
+  }
+
+  
+	goForward() {
+    if (currentSample < NUM_SAMPLES) {
+      this.processSample(currentSample + 1);
+    }
+  }
+
+  goBack() {
+    if (currentSample > 1) {
+      this.processSample(currentSample - 1);
+    }
   }
 
   processMatrix(matrix) {
