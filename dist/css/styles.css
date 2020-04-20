@@ -2,27 +2,26 @@
 html {
   background: rgb(228, 247, 204);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
   padding: 10px;
 }
-.welcome {
-  width: 100%;
-  font: 24px;
-}
 .main-body {
+  display: flex;
+  flex-direction: row;
   padding: 20px;
-}
+} 
 .bot-input-container {
-  float: left;
+  display: inline-block;
   width: 50%;
 }
-.output-display-conatainer {
-  float: right;
+.output-display-container {
+  display: inline-block;
   width: 50%;
 }
 #canvas {
   background-color: whitesmoke;
-  height: 400px;
-  width: 400px;
+  height: 300px;
+  width: 300px;
   border: solid 1px #eee;
 }
 #output {
@@ -38,6 +37,7 @@ html {
 #button {
   height: 30px;
   width: 60px;
+  cursor: pointer;
   border-radius: 5px;
   color: gray;
   background-color: #eee;
@@ -48,7 +48,7 @@ html {
   width: 300px;
   border: solid 1px #eee;
 }
-.results-container {
-  height: 300px;
-  width: 300px;
+.chart-container {
+  display: flex;
+  flex-direction: column;
 }

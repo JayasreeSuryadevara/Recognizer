@@ -15,34 +15,34 @@
   </head>
 
   <body>
-    <div>
-      <div className="welcome">
-        <h1 id="welcome-mesg"> Welcome to my space!</h1>
-        <br />
-        <p> Drag your images into the canvas... </p>
-      </div>
-      <div className="main-body">
-        <div className="bot-input-container">
+    <div className="main-body">
+      <div className="bot-input-container">
+        <div className="welcome">
+          <h1 id="welcome-mesg"> Welcome to my space!</h1>
           <br />
-          <div className="camera-canvas-holder">
-            <canvas id="canvas"></canvas>
-            <div id="output"></div>
-          </div>
-          <br>
-          <div className="user-interaction">
-            <input id="image-name" type="text" placeholder='What is this?' />
-            <button id="button"> Learn </button>
-          </div>
-          <br>
+          <p> Browse through the sample images.. </p>
+          <p> <img src="./samples/dhalia.jpeg" alt="HTML5 icon" style="width:300px;height:300px;"></p>
         </div>
-        <div className="output-display-conatainer">
-          <div className="chart-container" >
-            <canvas id="myChart"></canvas>
-            <button className="clear-btn">Clear Learned Data</button>
-          </div>
-          <div className="results-container">
-            <ul className="learned-list"></ul>
-          </div>
+        <br />
+        <div className="camera-canvas-holder">
+          <canvas id="canvas"></canvas>
+          <div id="output"></div>
+        </div>
+        <br>
+        <div className="user-interaction">
+          <input id="image-name" type="text" placeholder='What is this?' />
+          <button id="button"> Learn </button>
+        </div>
+        <br>
+      </div>
+      <div className="output-display-conatainer">
+        <div className="chart-container" >
+          <canvas id="myChart"></canvas>
+          <button className="clear-btn">Clear Learned Data</button>
+        </div>
+        <div className="results-container">
+          <p> Learned Objects </p>
+          <ul id="learned-list"></ul>
         </div>
       </div>
     </div>

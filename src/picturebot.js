@@ -1,8 +1,8 @@
 const SIZE = 300; //canvas size
 const THRESHOLD = 128; //gray
-let LEARNING_DATA = []; // map name of obj to analyzed data
+let observedObj = []; // map name of obj to analyzed data
 let analyzed = [] //analyzed obj size and mass
-let OBJ_COUNT = 0;
+let objCount = 0;
 
 export default class PictureBot {
   constructor(canvas) {
@@ -56,13 +56,13 @@ export default class PictureBot {
     image.onload = function() {
       // To adjust image aspect ratio to browser
       // debugger;
-      // let min = Math.min(image.width, image.height);
+      let min = Math.min(image.width, image.height);
 
-      // let startX = (image.width - min) / 2;
-      // let startY = (image.height - min) / 2;
+      let startX = (image.width - min) / 2;
+      let startY = (image.height - min) / 2;
 
-      //context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
-      context.drawImage(image, 0,0)     
+      context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
+      // context.drawImage(image, 0,0)     
     }
     image.src = imageURL;
     let pixelArr = context.getImageData( 0, 0, SIZE, SIZE);
@@ -74,17 +74,18 @@ export default class PictureBot {
   }
 
   learn() {
+    document.getElementById("output").innerHTML = "Got it!"
     let name = document.getElementById("image-name").value;
     if (name == "") {
       alert("Enter a name for this object.");
       return;
     }
-    OBJ_COUNT++;
-    LEARNING_DATA[OBJ_COUNT] = {
+    objCount++;
+    observedObj[objCount] = {
       name: name,
       props: analyzed
     }
-    console.log(LEARNING_DATA);
+    console.log(observedObj);
     document.getElementById("output").value = name;
     document.getElementById("image-name").value = "";
   }
@@ -96,21 +97,21 @@ export default class PictureBot {
   }
 
   processMatrix(matrix) {
-    this.isolateObject(matrix);
+    this.applyThreshold(matrix);
     const boundingBox = this.getBoundingBox(matrix);
     const boxProps = this.getBBoxProps(boundingBox);
     let blackPixels = this.countBlackPixels(matrix);
-    console.log("black pixels ", blackPixels);
 
-    // OBJ_RATIO = blackPixels / boxArea;
     const aspectRatio = boxProps.width / boxProps.length;
+    console.log("ar",aspectRatio);
     analyzed.push(aspectRatio);
     const mass = blackPixels / boxProps.area;
+    console.log("mass", mass);
     analyzed.push(mass);
 
-    this.recognize(mass);
+    this.findObject(analyzed);
 
-    this.updateData(LEARNING_DATA);
+    this.updateData(observedObj);
   }
 
   countBlackPixels(matrix) {
@@ -125,13 +126,13 @@ export default class PictureBot {
     return count;
   }
 
-  recognize(currentObject) {
+  findObject(currentObject) {
     let name;
-    if (OBJ_COUNT == 0) {
+    if (objCount == 0) {
       name = "Not Sure";
     } else {
       let neighbor = this.getNearestNeighbor(currentObject);
-      name = neighbor.name;
+      if (neighbor) name = neighbor.name;
     }
     document.getElementById("output").innerHTML = name;
   }
@@ -139,12 +140,12 @@ export default class PictureBot {
   getNearestNeighbor(currentObject) {
     let neighbor = null;
     let minDist = null;
-    for (let i = 1; i <= OBJ_COUNT; i++) {
-      let dist = Math.abs(currentObject - LEARNING_DATA[i].ratio);
-      dist = this.distance(currentObject, LEARNING_DATA[i].ratio);
+    for (let i = 1; i <= objCount; i++) {
+      let dist = Math.abs(currentObject - observedObj[i].props);
+      dist = this.distance(currentObject, observedObj[i].props);
       if (minDist == null || minDist > dist) {
         minDist = dist;
-        neighbor = LEARNING_DATA[i];
+        neighbor = observedObj[i];
       }
     }
     return neighbor;
@@ -197,7 +198,7 @@ export default class PictureBot {
     return box;
   }
 
-  isolateObject(matrix) {
+  applyThreshold(matrix) {
     for (let i = 1; i <= SIZE; i++) {
       for (let j = 1; j <= SIZE; j++) {
         if (matrix[i][j] < THRESHOLD) {
@@ -226,10 +227,10 @@ export default class PictureBot {
     return matrix;
   }
 
-  updateData(LEARNING_DATA) {
+  updateData(observedObj) {
     const listContainer = document.getElementById("learned-list");
-    listContainer.innerHTML = LEARNING_DATA.map((record,i) => {
-      return `<li key=${i}>${record.name} : ${record.ratio}</li>`
+    listContainer.innerHTML = observedObj.map((record,i) => {
+      return `<li key=${i}>${record.name}</li>`
     }).join("");
   }
 
