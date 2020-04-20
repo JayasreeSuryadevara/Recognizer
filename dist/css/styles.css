@@ -18,6 +18,12 @@ html {
   display: inline-block;
   width: 50%;
 }
+#sampler {
+  height: 30px;
+}
+#controls {
+  display: none;
+}
 #canvas {
   background-color: whitesmoke;
   height: 300px;

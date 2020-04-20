@@ -1,5 +1,7 @@
 const SIZE = 300; //canvas size
 const THRESHOLD = 128; //gray
+const CURRENT_SAMPLE = 1;
+const NUM_SAMPLES = 24;
 let observedObj = []; // map name of obj to analyzed data
 let analyzed = [] //analyzed obj size and mass
 let objCount = 0;
@@ -29,6 +31,8 @@ export default class PictureBot {
   }
 
   startEvents() {
+    const sampleButton = document.getElementById("sampler");
+    sampleButton.addEventListener("click", () => { this.browseSamples() });
     const learnButton = document.getElementById("button");
     learnButton.addEventListener("click" , () => { this.learn() });
     const inputField = document.getElementById("image-name");
@@ -56,13 +60,13 @@ export default class PictureBot {
     image.onload = function() {
       // To adjust image aspect ratio to browser
       // debugger;
-      let min = Math.min(image.width, image.height);
+      // let min = Math.min(image.width, image.height);
 
-      let startX = (image.width - min) / 2;
-      let startY = (image.height - min) / 2;
+      // let startX = (image.width - min) / 2;
+      // let startY = (image.height - min) / 2;
 
-      context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
-      // context.drawImage(image, 0,0)     
+      // context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
+      context.drawImage(image, 0,0)     
     }
     image.src = imageURL;
     let pixelArr = context.getImageData( 0, 0, SIZE, SIZE);
@@ -96,6 +100,53 @@ export default class PictureBot {
     }
   }
 
+  browseSamples() {
+    document.getElementById("controls").style.display = "block";
+    this.processSample(CURRENT_SAMPLE);
+  }
+
+  processSample(num) {
+    CURRENT_SAMPLE = num;
+    let image = new Image();
+    image.src = "/samples" + CURRENT_SAMPLE + ".jpeg";
+    this.ctx.clearRect(0,0,SIZE,SIZE);
+    var location = {
+      x: SIZE / 2,
+      y: SIZE / 2
+    }
+    drawText(LOADING, SIZE / 8, this.ctx, location);
+
+    image.onload = function () {
+      // takes time to load; when complete, draw and process the image
+      this.ctx.drawImage(image, 0, 0);
+      let pixelArr = this.ctx.getImageData(0, 0, SIZE, SIZE);
+      let matrix = this.getGreyScaleMatrix(pixelArr);
+      this.processMatrix(matrix);
+    };
+
+    updateControlls();
+  }
+
+  updateControlls() {
+    // disable back button if viewing first sample
+    if (CURRENT_SAMPLE <= 1) {
+      document.getElementById("back").disabled = true;
+    } else {
+      document.getElementById("back").disabled = false;
+    }
+
+    // disable forward button if viewing last sample
+    if (CURRENT_SAMPLE == NUM_SAMPLES) {
+      document.getElementById("forward").disabled = true;
+    } else {
+      document.getElementById("forward").disabled = false;
+    }
+
+    // showing the number of the current sample
+    document.getElementById("sample").innerHTML =
+      CURRENT_SAMPLE + " / " + NUM_SAMPLES;
+  }
+
   processMatrix(matrix) {
     this.applyThreshold(matrix);
     const boundingBox = this.getBoundingBox(matrix);
@@ -104,10 +155,10 @@ export default class PictureBot {
 
     const aspectRatio = boxProps.width / boxProps.length;
     console.log("ar",aspectRatio);
-    analyzed.push(aspectRatio);
-    const mass = blackPixels / boxProps.area;
+    analyzed[0] = aspectRatio;
+    const mass = (blackPixels / boxProps.area).toFixed(5);
     console.log("mass", mass);
-    analyzed.push(mass);
+    analyzed[1] = mass;
 
     this.findObject(analyzed);
 
