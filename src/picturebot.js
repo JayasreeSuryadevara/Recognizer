@@ -30,9 +30,9 @@ export default class PictureBot {
 
   startEvents() {
     const learnButton = document.getElementById("button");
-    learnButton.addEventListener("click" , () => { this.learn(); });
+    learnButton.addEventListener("click" , () => { this.learn() });
     const inputField = document.getElementById("image-name");
-    inputField.addEventListener("keyup", (e) => { this.handleKeyPress(e); });
+    inputField.addEventListener("keyup", (e) => { this.handleKeyPress(e) });
   }
 
   drawImage(fileList) {
