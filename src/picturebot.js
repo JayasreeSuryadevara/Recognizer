@@ -1,6 +1,7 @@
 const SIZE = 300; //canvas size
 const THRESHOLD = 128; //gray
 const NUM_SAMPLES = 24;
+let context;
 let currentSample = 1; //first sample image
 let observedObj = []; // map name of obj to analyzed data
 let analyzed = [] //analyzed obj size and mass
@@ -9,7 +10,7 @@ let objCount = 0;
 export default class PictureBot {
   constructor(canvas) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
+    context = this.canvas.getContext('2d');
     this.listenToImageDrop();
     this.startEvents();
   }
@@ -34,9 +35,9 @@ export default class PictureBot {
     const sampleButton = document.getElementById("sampler");
     sampleButton.addEventListener("click", () => { this.browseSamples() });
     const backButton = document.getElementById("back");
-    sampleButton.addEventListener("click", () => { this.goBack() });
+    backButton.addEventListener("click", () => { this.goBack() });
     const forwardButton = document.getElementById("forward");
-    sampleButton.addEventListener("click", () => { this.goForward() });
+    forwardButton.addEventListener("click", () => { this.goForward() });
     const learnButton = document.getElementById("button");
     learnButton.addEventListener("click" , () => { this.learn() });
     const inputField = document.getElementById("image-name");
@@ -59,8 +60,8 @@ export default class PictureBot {
   }
 
   loadAndDrawImage(imageURL) {
-    let context = this.canvas.getContext('2d');
     let image = new Image();
+    // let context = this.canvas.getContext("2d");
     image.onload = function() {
       // To adjust image aspect ratio to browser
       // debugger;
@@ -73,12 +74,7 @@ export default class PictureBot {
       context.drawImage(image, 0,0)     
     }
     image.src = imageURL;
-    let pixelArr = context.getImageData( 0, 0, SIZE, SIZE);
-    // console.log("pixelArray", pixelArr);
-    let matrix = this.getGreyScaleMatrix(pixelArr);
-    // console.log("matrix", matrix);
-    // debugger;
-    this.processMatrix(matrix);
+    this.processMatrix();
   }
 
   learn() {
@@ -112,30 +108,30 @@ export default class PictureBot {
   processSample(num) {
     currentSample = num;
     let image = new Image();
+    // let context = this.canvas.getContext("2d");
     image.src = "samples/" + currentSample + ".jpeg";
-    this.ctx.clearRect(0,0,SIZE,SIZE);
+    context.clearRect(0,0,SIZE,SIZE);
 
     image.onload = function () {
-      // takes time to load; when complete, draw and process the image
-      this.ctx.drawImage(image, 0, 0);
-      let pixelArr = this.ctx.getImageData(0, 0, SIZE, SIZE);
-      let matrix = this.getGreyScaleMatrix(pixelArr);
-      this.processMatrix(matrix);
+      context.drawImage(image, 0, 0);
     };
-
+    debugger;
+    this.processMatrix();
     this.updateControlls();
   }
 
   updateControlls() {
+    debugger;
+
     // disable back button if viewing first sample
-    if (currentSample <= 1) {
+    if (currentSample === 1) {
       document.getElementById("back").disabled = true;
     } else {
       document.getElementById("back").disabled = false;
     }
 
     // disable forward button if viewing last sample
-    if (currentSample == NUM_SAMPLES) {
+    if (currentSample === NUM_SAMPLES) {
       document.getElementById("forward").disabled = true;
     } else {
       document.getElementById("forward").disabled = false;
@@ -159,7 +155,10 @@ export default class PictureBot {
     }
   }
 
-  processMatrix(matrix) {
+  processMatrix() {
+    // let context = this.canvas.getContext("2d");
+    let pixelArr = context.getImageData(0, 0, SIZE, SIZE);
+    let matrix = this.getGreyScaleMatrix(pixelArr);
     this.applyThreshold(matrix);
     const boundingBox = this.getBoundingBox(matrix);
     const boxProps = this.getBBoxProps(boundingBox);
