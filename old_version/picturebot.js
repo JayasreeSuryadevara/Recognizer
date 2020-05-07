@@ -61,7 +61,6 @@ export default class PictureBot {
 
   loadAndDrawImage(imageURL) {
     let image = new Image();
-    // let context = this.canvas.getContext("2d");
     image.onload = function() {
       // To adjust image aspect ratio to browser
       // debugger;
@@ -108,13 +107,12 @@ export default class PictureBot {
   processSample(num) {
     currentSample = num;
     let image = new Image();
-    image.crossOrigin = "Anonymous";
-    // let context = this.canvas.getContext("2d");
-    image.src = "samples/" + currentSample + ".jpeg";
+    image.src = "samples/" + currentSample + ".png";
+    console.log(image.src);
     context.clearRect(0,0,SIZE,SIZE);
 
     image.onload = function () {
-      context.drawImage(image, 0, 0);
+      context.drawImage(image, 0, 0, SIZE, SIZE);
     };
     this.processMatrix();
     this.updateControlls();
@@ -155,7 +153,6 @@ export default class PictureBot {
   }
 
   processMatrix() {
-    // let context = this.canvas.getContext("2d");
     let pixelArr = context.getImageData(0, 0, SIZE, SIZE);
     let matrix = this.getGreyScaleMatrix(pixelArr);
     this.applyThreshold(matrix);
@@ -199,6 +196,8 @@ export default class PictureBot {
   }
 
   getNearestNeighbor(currentObject) {
+    console.log("currentObj", currentObject);
+    console.log("ObjCount", objCount);
     let neighbor = null;
     let minDist = null;
     for (let i = 1; i <= objCount; i++) {
