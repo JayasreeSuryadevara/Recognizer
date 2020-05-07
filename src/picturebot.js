@@ -65,20 +65,20 @@ export default class PictureBot {
     image.onload = function() {
       // To adjust image aspect ratio to browser
       // debugger;
-      // let min = Math.min(image.width, image.height);
+      let min = Math.min(image.width, image.height);
 
-      // let startX = (image.width - min) / 2;
-      // let startY = (image.height - min) / 2;
+      let startX = (image.width - min) / 2;
+      let startY = (image.height - min) / 2;
 
-      // context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
-      context.drawImage(image, 0,0)     
+      context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
+      // context.drawImage(image, 0,0)     
     }
     image.src = imageURL;
     this.processMatrix();
   }
 
   learn() {
-    document.getElementById("output").innerHTML = "Got it!"
+    document.getElementById("output").innerText = "Got it!"
     let name = document.getElementById("image-name").value;
     if (name == "") {
       alert("Enter a name for this object.");
@@ -108,6 +108,7 @@ export default class PictureBot {
   processSample(num) {
     currentSample = num;
     let image = new Image();
+    image.crossOrigin = "Anonymous";
     // let context = this.canvas.getContext("2d");
     image.src = "samples/" + currentSample + ".jpeg";
     context.clearRect(0,0,SIZE,SIZE);
@@ -115,13 +116,11 @@ export default class PictureBot {
     image.onload = function () {
       context.drawImage(image, 0, 0);
     };
-    debugger;
     this.processMatrix();
     this.updateControlls();
   }
 
   updateControlls() {
-    debugger;
 
     // disable back button if viewing first sample
     if (currentSample === 1) {
@@ -138,7 +137,7 @@ export default class PictureBot {
     }
 
     // showing the number of the current sample
-    document.getElementById("sample-count").innerHTML =
+    document.getElementById("sample-count").innerText =
       currentSample + " / " + NUM_SAMPLES;
   }
 
@@ -196,7 +195,7 @@ export default class PictureBot {
       let neighbor = this.getNearestNeighbor(currentObject);
       if (neighbor) name = neighbor.name;
     }
-    document.getElementById("output").innerHTML = name;
+    document.getElementById("output").innerText = name;
   }
 
   getNearestNeighbor(currentObject) {
@@ -292,7 +291,7 @@ export default class PictureBot {
   updateData(observedObj) {
     const listContainer = document.getElementById("learned-list");
     listContainer.innerHTML = observedObj.map((record,i) => {
-      return `<li key=${i}>${record.name}</li>`
+      return `<li key=${i}>${record.name} : ${record.props.analyzed}</li>`
     }).join("");
   }
 

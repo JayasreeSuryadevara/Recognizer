@@ -5,15 +5,18 @@ html {
   text-align: center;
   padding: 10px;
 }
+
 .main-body {
   display: flex;
   flex-direction: row;
   padding: 20px;
 } 
+
 .bot-input-container {
   display: inline-block;
   width: 50%;
 }
+
 .output-display-container {
   display: inline-block;
   width: 50%;
@@ -23,6 +26,7 @@ html {
   height: 28px;
   border-radius: 5px;
 }
+
 #controls {
   display: none;
 }
@@ -32,16 +36,19 @@ html {
   width: 300px;
   border: solid 1px #eee;
 }
+
 #output {
   padding-top: 20px;
   padding-bottom: 20px;
   height: 30px;
   width: 200px;
 }
+
 #image-name {
   height: 30px;
   width: 160px;
 }
+
 #button {
   height: 30px;
   width: 60px;

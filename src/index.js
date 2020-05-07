@@ -4,9 +4,8 @@ import PictureBot from './picturebot';
 const SIZE = 300;
 
 
-const canvas = document.getElementById('canvas');
+var canvas = document.getElementById('canvas');
 canvas.width = SIZE;
 canvas.height = SIZE;
-
 
 new PictureBot(canvas);
