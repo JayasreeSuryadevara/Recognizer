@@ -1,5 +1,5 @@
 # PictureBot
-	An Image analyzer AI
+	An simple Image Recognition Software written in JavaScript to practice Supervised Learning and Neural Network Algorithms like image analysis, classification, and simplfied modelling
 
 # Created By
 	Jayasree Suryadevara
