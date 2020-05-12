@@ -1,4 +1,4 @@
-import PictureBot from '../src/picturebot';
+import PictureBot from './picturebot';
 
 // Constant to manipulate canvas width and height (square)
 const SIZE = 300;

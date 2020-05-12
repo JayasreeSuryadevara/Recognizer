@@ -101,10 +101,10 @@ export default class PictureBot {
 
   browseSamples() {
     document.getElementById("controls").style.display = "block";
-    this.processSample(currentSample);
+    this.processImage(currentSample);
   }
 
-  processSample(num) {
+  processImage(num) {
     currentSample = num;
     let image = new Image();
     image.src = "samples/" + currentSample + ".png";
@@ -142,13 +142,13 @@ export default class PictureBot {
   
 	goForward() {
     if (currentSample < NUM_SAMPLES) {
-      this.processSample(currentSample + 1);
+      this.processImage(currentSample + 1);
     }
   }
 
   goBack() {
     if (currentSample > 1) {
-      this.processSample(currentSample - 1);
+      this.processImage(currentSample - 1);
     }
   }
 
@@ -290,7 +290,7 @@ export default class PictureBot {
   updateData(observedObj) {
     const listContainer = document.getElementById("learned-list");
     listContainer.innerHTML = observedObj.map((record,i) => {
-      return `<li key=${i}>${record.name} : ${record.props.analyzed}</li>`
+      return `<li key=${i}>${record.name} : ${record.analyzed[0]}</li>`
     }).join("");
   }
 
