@@ -6,7 +6,7 @@
 
 # Technology
 	JavaScrip,t5, CSS in myVersion
-	TenserflowJS, Mobilenet, KNNClassifier in the NNVersion
+	TenserflowJS, Mobilenet, KNNClassifier in the tfVersion
 	
 # Code Sample
 	
