@@ -1,5 +1,7 @@
 # PictureBot
-	An simple Image Recognition Software written in JavaScript to practice unsupervised Learning and Neural Network Algorithms like image analysis, classification, and simplfied modelling.
+	An simple Image Recognition Software written in JavaScript 
+	to practice Machine Learning and Neural Network Priciples 
+	for image analysis, classification, and modelling.
 
 # Created By
 	Jayasree Suryadevara
