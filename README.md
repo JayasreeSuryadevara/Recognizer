@@ -8,6 +8,7 @@
 	JavaScrip,t5, CSS in myVersion
 	TenserflowJS, Mobilenet, KNNClassifier in the tfVersion
 	
-# Code Sample
+# About this Repo
+	This repo was used to create two different versions on Image Recognition software for my personal learning experience
 	
-  
+  	![myVersion]() 
