@@ -196,13 +196,11 @@ export default class PictureBot {
   }
 
   getNearestNeighbor(currentObject) {
-    console.log("currentObj", currentObject);
-    console.log("ObjCount", objCount);
     let neighbor = null;
     let minDist = null;
     for (let i = 1; i <= objCount; i++) {
       let dist = Math.abs(currentObject - observedObj[i].props);
-      dist = this.distance(currentObject, observedObj[i].props);
+      dist = this.euclideanDistance(currentObject, observedObj[i].props);
       if (minDist == null || minDist > dist) {
         minDist = dist;
         neighbor = observedObj[i];
@@ -211,7 +209,7 @@ export default class PictureBot {
     return neighbor;
   }
 
-  distance(p1, p2) {
+  euclideanDistance(p1, p2) {
     let dist = 0;
     for (let i = 1; i <= 2; i++) {
       dist += (p1[i] - p2[i]) * (p1[i] - p2[i]);
@@ -290,7 +288,7 @@ export default class PictureBot {
   updateData(observedObj) {
     const listContainer = document.getElementById("learned-list");
     listContainer.innerHTML = observedObj.map((record,i) => {
-      return `<li key=${i}>${record.name} : ${record.analyzed[0]}</li>`
+      return `<li key=${i}>${record.name} : ${record.props[0]}</li>`
     }).join("");
   }
 
