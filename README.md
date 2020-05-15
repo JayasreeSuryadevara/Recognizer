@@ -7,8 +7,8 @@
 	Jayasree Suryadevara
 
 # Technology
-	JavaScrip,t5, CSS in myVersion
-	TenserflowJS, Mobilenet, KNNClassifier in the tfVersion
+	myVersion - JavaScrip, HTML5, CSS
+	tfVersion - TenserflowJS, Mobilenet, KNNClassifier
 	
 # About this Repo
 	This repo was used to create two different versions on Image Recognition software for my personal learning experience
