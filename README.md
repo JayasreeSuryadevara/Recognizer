@@ -13,6 +13,6 @@
 # About this Repo
 	This repo was used to create two different versions on Image Recognition software for my personal learning experience
 	
-  	[myVersion](https://github.com/JayasreeSuryadevara/Recognizer/tree/master/myVersion) 
+  	[myVersion](https://github.com/JayasreeSuryadevara/Recognizer/tree/master/myVersion)
 	
 	[tfVersion](https://github.com/JayasreeSuryadevara/Recognizer/tree/master/tfVersion) 
