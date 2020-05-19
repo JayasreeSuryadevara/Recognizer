@@ -7,7 +7,7 @@
 	Jayasree Suryadevara
 
 # Technology
-	myVersion - JavaScrip, HTML5, CSS
+	myVersion - JavaScript, HTML5, CSS
 	tfVersion - TenserflowJS, Mobilenet, KNNClassifier
 	
 # About this Repo
