@@ -106,9 +106,12 @@ export default class PictureBot {
 
   processImage(num) {
     currentSample = num;
+    console.log("currentSample", currentSample);
     let image = new Image();
+    image.setAttribute('crossOrigin', '');
+    // image.crossOrigin = 'Anonymous';
     image.src = "samples/" + currentSample + ".png";
-    console.log(image.src);
+
     context.clearRect(0,0,SIZE,SIZE);
 
     image.onload = function () {

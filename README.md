@@ -1,18 +1,16 @@
-# PictureBot
-	An simple Image Recognition Software written in JavaScript 
-	to practice Machine Learning and Neural Network Priciples 
-	for image analysis, classification, and modelling.
-
-# Created By
-	Jayasree Suryadevara
-
-# Technology
-	myVersion - JavaScript, HTML5, CSS
-	tfVersion - TenserflowJS, Mobilenet, KNNClassifier
-	
-# About this Repo
-	This repo was used to create two different versions on Image Recognition software for my personal learning experience
-	
-  	[myVersion](https://github.com/JayasreeSuryadevara/Recognizer/tree/master/myVersion)
-	
-	[tfVersion](https://github.com/JayasreeSuryadevara/Recognizer/tree/master/tfVersion) 
+# myVersion
+  A simplified Image Recognition software written to understand the concepts of Machine Learning, Neural Networks and AI.
+  
+# Problem
+  The UI has a canvas that will aloow the user to drag and drop an image.
+  Want to read the image data, make observations and let the user label the image.
+  As the algorithm learn the labels and the observations it tries to label new images dropped onto the canvas.
+  The predictions should get more accurate as the data increases
+  
+ # Solution
+  
+  Pixelize the image and set a threshold
+  Define minimum bounding box for the image
+  Calculate the Aspect Ratio and Mass of the object in the image and store the observations
+  
+  
