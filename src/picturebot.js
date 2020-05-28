@@ -3,8 +3,8 @@ const THRESHOLD = 128; //gray
 const NUM_SAMPLES = 24;
 let context;
 let currentSample = 1; //first sample image
-let observedObj = []; // map name of obj to analyzed data
-let analyzed = [] //analyzed obj size and mass
+let observedObj = {}; // map name of obj to analyzed data
+let analyzed; //analyzed obj size and mass
 let objCount = 0;
 
 export default class PictureBot {
@@ -124,18 +124,13 @@ export default class PictureBot {
   updateControlls() {
 
     // disable back button if viewing first sample
-    if (currentSample === 1) {
-      document.getElementById("back").disabled = true;
-    } else {
-      document.getElementById("back").disabled = false;
-    }
+    let backDisable = currentSample <= 1 ? true : false;
+    document.getElementById("back").disabled = backDisable;
+
 
     // disable forward button if viewing last sample
-    if (currentSample === NUM_SAMPLES) {
-      document.getElementById("forward").disabled = true;
-    } else {
-      document.getElementById("forward").disabled = false;
-    }
+    let forwardDisable = currentSample === NUM_SAMPLES ? true : false;
+    document.getElementById("forward").disabled = forwardDisable;
 
     // showing the number of the current sample
     document.getElementById("sample-count").innerText =
@@ -156,6 +151,7 @@ export default class PictureBot {
   }
 
   processMatrix() {
+    analyzed = [];
     let pixelArr = context.getImageData(0, 0, SIZE, SIZE);
     let matrix = this.getGreyScaleMatrix(pixelArr);
     this.applyThreshold(matrix);
@@ -164,11 +160,13 @@ export default class PictureBot {
     let blackPixels = this.countBlackPixels(matrix);
 
     const aspectRatio = boxProps.width / boxProps.length;
-    console.log("ar",aspectRatio);
     analyzed[0] = aspectRatio;
+
     const mass = (blackPixels / boxProps.area).toFixed(5);
-    console.log("mass", mass);
     analyzed[1] = mass;
+
+    console.log("Aspect Ratio: ",aspectRatio);
+    console.log("Mass: ", mass);
 
     this.findObject(analyzed);
 
@@ -202,8 +200,8 @@ export default class PictureBot {
     let neighbor = null;
     let minDist = null;
     for (let i = 1; i <= objCount; i++) {
-      let dist = Math.abs(currentObject - observedObj[i].props);
-      dist = this.euclideanDistance(currentObject, observedObj[i].props);
+      // let dist = Math.abs(currentObject - observedObj[i].props);
+      let dist = this.euclideanDistance(observedObj[i].props, currentObject);
       if (minDist == null || minDist > dist) {
         minDist = dist;
         neighbor = observedObj[i];
@@ -291,7 +289,7 @@ export default class PictureBot {
   updateData(observedObj) {
     const listContainer = document.getElementById("learned-list");
     listContainer.innerHTML = observedObj.map((record,i) => {
-      return `<li key=${i}>${record.name} : ${record.props[0]}</li>`
+      return `<li key=${i}>${record.name} </li>`
     }).join("");
   }
 
