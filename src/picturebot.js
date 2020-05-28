@@ -190,7 +190,7 @@ export default class PictureBot {
   findObject(currentObject) {
     let name;
     if (objCount == 0) {
-      name = "Not Sure";
+      name = "Not Sure!";
     } else {
       let neighbor = this.getNearestNeighbor(currentObject);
       if (neighbor) name = neighbor.name;
