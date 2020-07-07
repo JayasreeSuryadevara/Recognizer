@@ -10,10 +10,10 @@
  # Solution
   
   Pixelize the image and set a threshold 
-   - Pixel data comes in 4 pieces of information - Red, Green, Blue, Alpha
-     By Averaging out the R, G, B  values and setting a threshold( 128 = Grey )
-     and replacing all values less than threshold with 0 and more to 1
-     you can in effect read the image as black and white 0 or 1 matrix
+    - Pixel data comes in 4 pieces of information - Red, Green, Blue, Alpha
+      By Averaging out the R, G, B  values and setting a threshold( 128 = Grey )
+      and replacing all values less than threshold with 0 and more to 1
+      you can in effect read the image as black and white 0 or 1 matrix
 
      
 
