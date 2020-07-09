@@ -19,5 +19,6 @@
 
   Define minimum bounding box for the image
   Calculate the Aspect Ratio and Mass of the object in the image and store the observations
+    - Aspect Ratio = length / width
   
   
