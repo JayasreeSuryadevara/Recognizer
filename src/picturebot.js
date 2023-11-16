@@ -162,7 +162,7 @@ export default class PictureBot {
     console.log("blackPixels ", blackPixels);
     const aspectRatio = boxProps.width / boxProps.length;
     analyzed[0] = aspectRatio;
-    console.log("aspectRatio ", aspectRatio)
+
     const mass = (blackPixels / boxProps.area).toFixed(5);
     analyzed[1] = mass;
 
