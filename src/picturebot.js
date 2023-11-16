@@ -70,7 +70,7 @@ export default class PictureBot {
       let startY = (image.height - min) / 2;
 
       context.drawImage(image, startX, startY, min, min, 0, 0, SIZE, SIZE);
-      // context.drawImage(image, 0,0)     
+      // context.drawImage(image, 0,0)
     }
     image.src = imageURL;
     this.processMatrix();
@@ -137,7 +137,7 @@ export default class PictureBot {
       currentSample + " / " + NUM_SAMPLES;
   }
 
-  
+
 	goForward() {
     if (currentSample < NUM_SAMPLES) {
       this.processImage(currentSample + 1);
@@ -159,9 +159,10 @@ export default class PictureBot {
     const boxProps = this.getBBoxProps(boundingBox);
     let blackPixels = this.countBlackPixels(matrix);
 
+    console.log("blackPixels ", blackPixels);
     const aspectRatio = boxProps.width / boxProps.length;
     analyzed[0] = aspectRatio;
-
+    console.log("aspectRatio ", aspectRatio)
     const mass = (blackPixels / boxProps.area).toFixed(5);
     analyzed[1] = mass;
 
@@ -269,7 +270,7 @@ export default class PictureBot {
     }
   }
 
-  //dataArray comes as a single array of 4 values per pixel 
+  //dataArray comes as a single array of 4 values per pixel
   // [red, green, blue, opacity]
   getGreyScaleMatrix(dataArray) {
     let matrix = [];
@@ -294,18 +295,3 @@ export default class PictureBot {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
